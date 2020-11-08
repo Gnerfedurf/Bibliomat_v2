@@ -1,0 +1,55 @@
+﻿@model Bibliomat.WebApp.Models.HomeViewModel
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "Library";
+}
+<div class="text-center">
+    @{
+        if (!string.IsNullOrWhiteSpace(@Model.SuccessMessage))
+        {
+            <p id="SuccessMessage" class="SuccessMessage">@Model.SuccessMessage</p>
+        }
+        if (!string.IsNullOrWhiteSpace(@Model.ErrorMessage))
+        {
+            <p id="ErrorMessage" class="ErrorMessage">@Model.ErrorMessage</p>
+        }
+    }
+
+    <h1 class="display-4 mb-3 mt-4">Library</h1>
+
+    <table class="table">
+        <tr>
+            <th class="text-left">Title</th>
+            <th class="text-left">Availability</th>
+        </tr>
+        @{
+            foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td class="text-left"><a href="/Detailed/Index?bookId=@book.Id">@book.Title</a></td>
+                    @{
+                        if (book.UserId == null)
+                        {
+                            <td class="text-left">Available</td>
+                        }
+                        else if (Context.Session.GetInt32("UserId") == book.UserId)
+                        {
+                            <td class="text-left">Owned</td>
+                        }
+                        else
+                        {
+                            <td class="text-left">Reserved</td>
+                        }
+                    }
+                </tr>
+            }
+        }
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#ErrorMessage").delay(3000).fadeOut(1500);
+        $("#SuccessMessage").delay(3000).fadeOut(1500);
+    });
+</script>

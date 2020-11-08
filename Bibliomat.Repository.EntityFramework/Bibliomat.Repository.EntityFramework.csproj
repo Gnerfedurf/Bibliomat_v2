@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bibliomat.Common.Model\Bibliomat.Common.Model.csproj" />
+    <ProjectReference Include="..\Bibliomat.Repository.Abstract\Bibliomat.Repository.Abstract.csproj" />
+  </ItemGroup>
+
+</Project>

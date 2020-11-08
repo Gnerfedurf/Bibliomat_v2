@@ -1,0 +1,62 @@
+﻿@model Bibliomat.WebApp.Models.DetailedViewModel
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = Model.Book.Title;
+}
+
+<div class="text-center">
+    @{
+        if (!string.IsNullOrWhiteSpace(@Model.SuccessMessage))
+        {
+            <p id="SuccessMessage" class="SuccessMessage">@Model.SuccessMessage</p>
+        }
+        if (!string.IsNullOrWhiteSpace(@Model.ErrorMessage))
+        {
+            <p id="ErrorMessage" class="ErrorMessage">@Model.ErrorMessage</p>
+        }
+    }
+
+    <h1 class="display-4 mb-3 mt-4">@Model.Book.Title</h1>
+
+    <h5>Description</h5>
+
+    <div class="text-left custom-center">
+        <p>@Model.Book.Description</p>
+    </div>
+
+    @{
+        if (Model.Book.UserId == null)
+        {
+            if (Context.Session.GetInt32("UserId") != null)
+            {
+                <a href="/Detailed/Reserve?bookId=@Model.Book.Id">Reserve</a>
+            }
+            else
+            {
+                <p>Login to reserve this book</p>
+            }
+        }
+        else if (Context.Session.GetInt32("UserId") != null)
+        {
+            if (Model.Book.UserId == Context.Session.GetInt32("UserId"))
+            {
+                <a href="/Detailed/Return?bookId=@Model.Book.Id">Return</a>
+            }
+            else
+            {
+                <p>Reserved</p>
+            }
+        }
+        else
+        {
+            <p>Reserved</p>
+        }
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $("#ErrorMessage").delay(3000).fadeOut(1500);
+        $("#SuccessMessage").delay(3000).fadeOut(1500);
+    });
+</script>

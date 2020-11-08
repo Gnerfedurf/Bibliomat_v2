@@ -1,0 +1,51 @@
+﻿@model Bibliomat.WebApp.Models.CollectionViewModel
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "Your Books";
+}
+<div class="text-center">
+    @{
+        if (!string.IsNullOrWhiteSpace(@Model.SuccessMessage))
+        {
+            <p id="SuccessMessage" class="SuccessMessage">@Model.SuccessMessage</p>
+        }
+        if (!string.IsNullOrWhiteSpace(@Model.ErrorMessage))
+        {
+            <p id="ErrorMessage" class="ErrorMessage">@Model.ErrorMessage</p>
+        }
+    }
+
+    <h1 class="display-4 mb-3 mt-4">Your Books</h1>
+
+    @{
+        if (Model.Books.Count != 0)
+        {
+            <table class="table">
+                <tr>
+                    <th class="text-left">Title</th>
+                    <th class="text-left">Return</th>
+                </tr>
+                @{
+                    foreach (var book in Model.Books)
+                    {
+                        <tr>
+                            <td class="text-left"><a href="/Detailed/Index?bookId=@book.Id">@book.Title</a></td>
+                            <td class="text-left"><a href="/Collection/Return?bookId=@book.Id">Return</a></td>
+                        </tr>
+                    }
+                }
+            </table>
+        }
+        else
+        {
+            <p>You do not own any Books</p>
+        }
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $("#ErrorMessage").delay(3000).fadeOut(1500);
+        $("#SuccessMessage").delay(3000).fadeOut(1500);
+    });
+</script>
